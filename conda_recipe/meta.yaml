@@ -1,0 +1,19 @@
+package:
+  name: libpsf
+  version: "1.0"
+
+source:
+  git_url: git@github.com:pkerichang/libpsf.git
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - gcc
+  run:
+    - libgcc
+
+about:
+  home: https://github.com/pkerichang/libpsf
+  license: LGPL
