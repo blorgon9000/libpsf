@@ -22,3 +22,7 @@ libpsf.pc
 libpsf-uninstalled.pc
 depcomp
 *~
+*.log
+compile
+install-sh
+test/test
