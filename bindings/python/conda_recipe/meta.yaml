@@ -1,5 +1,5 @@
 package:
-  name: libpsf
+  name: pypsf
   version: "1.0"
 
 source:
@@ -11,12 +11,15 @@ build:
 requirements:
   build:
     - python
+    - cython
     - numpy
     - gcc
+    - libpsf
   run:
     - python
     - numpy
     - libgcc
+    - libpsf
 
 about:
   home: https://github.com/pkerichang/libpsf
