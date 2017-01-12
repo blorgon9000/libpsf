@@ -3,8 +3,8 @@ package:
   version: "1.0"
 
 source:
-  git_url: git@github.com:pkerichang/libpsf.git
-
+  # git_url: git@github.com:pkerichang/libpsf.git
+  path: ../../../
 build:
   number: 0
 
