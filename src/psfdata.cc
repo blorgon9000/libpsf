@@ -6,6 +6,7 @@
 #include <list>
 #include <map>
 #include <algorithm>
+#include <stdexcept>
 
 #include "psf.h"
 #include "psfinternal.h"
@@ -145,11 +146,11 @@ int PSFComplexDoubleScalar::deserialize(const char *buf) {
 }
 template<>
 PSFComplexDoubleScalar::operator int() const {
-    throw NotImplemented();
+    throw std::runtime_error("int() operator is not implemented for PSFComplexDoubleScalar.");
 };
 template<>
 PSFComplexDoubleScalar::operator double() const {
-    throw NotImplemented();
+    throw std::runtime_error("double() operator is not implemented for PSFComplexDoubleScalar.");
 };
 
 // PSFStringScalar

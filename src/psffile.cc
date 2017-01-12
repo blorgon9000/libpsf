@@ -3,6 +3,7 @@
 #include "psfinternal.h"
 
 #include <stdio.h>
+#include <stdexcept>
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -99,7 +100,7 @@ void PSFFile::open() {
     m_fd = ::open(m_filename.c_str(), O_RDONLY);
   
     if (m_fd == -1)
-	throw FileOpenError();
+        throw std::invalid_argument("Cannot open file " + m_filename);
   
     m_size = lseek(m_fd, 0, SEEK_END);
   
@@ -108,7 +109,7 @@ void PSFFile::open() {
     if(validate())
 	deserialize((const char *)m_buffer, m_size);
     else
-	throw InvalidFileError();
+	throw std::runtime_error("Failed to parse file " + m_filename);
 }
 
 void PSFFile::close() {
@@ -118,7 +119,7 @@ void PSFFile::close() {
 	int rval = ::close(m_fd);
 
 	if (rval == -1)
-	    throw FileCloseError();
+	    throw std::runtime_error("Error encountered while closing file " + m_filename);
 
 	m_fd = -1;
     }
@@ -160,8 +161,10 @@ PSFVector* PSFFile::get_values(std::string name) const {
 }	
 
 const PropertyBlock &PSFFile::get_value_properties(std::string name) const {
-  //FIXME, check for NULL m_nonsweepvalues
-  return m_nonsweepvalues->get_value_properties(name);
+    if (m_nonsweepvalues)
+        return m_nonsweepvalues->get_value_properties(name);
+    else
+        throw std::invalid_argument("PSFFile has no non-sweep values");
 }
 
 const PSFScalar& PSFFile::get_value(std::string name) const {

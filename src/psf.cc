@@ -2,6 +2,8 @@
 #include "psfinternal.h"
 #include "psfdata.h"
 
+#include <stdexcept>
+
 PSFDataSet::PSFDataSet(std::string filename) : m_filename(filename), m_invertstruct(false) {
     m_psf     = new PSFFile(m_filename.c_str());
     m_is_open = false;
@@ -123,7 +125,6 @@ bool PSFDataSet::get_invertstruct() const {
 
 inline void PSFDataSet::verify_open() const {
     if (!m_is_open) {
-	std::cerr << "Data set is not open" << std::endl;
-	throw DataSetNotOpen();
+        throw std::runtime_error("Data file " + m_filename + " is not open.");
     }
 }

@@ -6,6 +6,7 @@
 #include <endian.h>
 #include <string.h>
 
+#include <stdexcept>
 #include <iostream>
 #include <fstream>
 #include <list>
@@ -103,7 +104,9 @@ public:
 
     virtual int deserialize(const char *buf);
     virtual int32_t get_id() const { return -1; };
-    virtual const std::string& get_name() const { throw(NotImplemented()); }
+    virtual const std::string& get_name() const {
+      throw(std::runtime_error("get_name() is not implemented for Chunk"));
+    }
 
     virtual void * new_dataobject() const { return NULL; };
     virtual PSFScalar* new_scalar() const { return NULL; };
@@ -220,8 +223,8 @@ class IndexedContainer: public Container {
  public:	
     virtual int deserialize(const char *buf, int abspos);
 
-    virtual const Chunk & get_child(int id) const;
-    virtual const Chunk & get_child(std::string name) const;
+    const Chunk & get_child(int id) const;
+    const Chunk & get_child(std::string name) const;
     virtual int get_child_index(std::string name) const;
 
     virtual void print(std::ostream &stream) const;

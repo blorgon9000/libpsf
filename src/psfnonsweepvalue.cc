@@ -3,7 +3,7 @@
 #include "psfinternal.h"
 
 #include <assert.h>
-
+#include <stdexcept>
 
 Chunk * ValueSectionNonSweep::child_factory(int chunktype) const {
     if(NonSweepValue::ischunk(chunktype))
@@ -19,8 +19,12 @@ const PSFScalar& ValueSectionNonSweep::get_value(std::string name) const {
 }
 
 const PropertyBlock & ValueSectionNonSweep::get_value_properties(const std::string name) const {
-  const NonSweepValue &child = dynamic_cast<const NonSweepValue &>(get_child(name));
-  return child.get_properties();
+    int idx = get_child_index(name);
+    if (idx < 0) {
+        throw std::invalid_argument("Cannot find non-sweep value " + name);
+    }
+    const NonSweepValue &child = dynamic_cast<const NonSweepValue &>(*at(idx));
+    return child.get_properties();
 }
 
 NonSweepValue::~NonSweepValue() {

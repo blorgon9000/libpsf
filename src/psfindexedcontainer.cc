@@ -1,5 +1,5 @@
 #include <assert.h>
-
+#include <stdexcept>
 #include "psf.h"
 #include "psfdata.h"
 #include "psfinternal.h"
@@ -96,16 +96,21 @@ void IndexedContainer::print(std::ostream &stream) const {
 }
 
 const Chunk & IndexedContainer::get_child(int id) const {
-    return *idmap.find(id)->second;
+    IdMap::const_iterator i = idmap.find(id);
+    if (i != idmap.end())
+        return *i->second;
+    else
+        throw std::invalid_argument("Cannot find child with id " + id);
+    
 }
 
 const Chunk & IndexedContainer::get_child(std::string name) const {
     NameIndexMap::const_iterator i = namemap.find(name);
 
-    if(i == namemap.end())
-	throw NotFound();
+    if(i != namemap.end())
+       return *at(i->second);
     else
-	return *at(i->second);
+        throw std::invalid_argument("Cannot find child with name " + name);
 }
 
 int IndexedContainer::get_child_index(std::string name) const {

@@ -40,6 +40,9 @@ int main(int argc, char *argv[]) {
 
   // get signal properties
   std::string sig_name = signals[0];
+  if (argc > 2) {
+      sig_name = argv[2];    
+  }
   pmap = dataset->get_signal_properties(sig_name);
   std::cout << "signal " << sig_name << " property values: " << std::endl;
   for ( pmap_it it = pmap.begin(); it != pmap.end(); it++) {

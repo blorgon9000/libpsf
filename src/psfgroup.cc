@@ -1,6 +1,7 @@
 #include "psf.h"
 #include "psfdata.h"
 #include "psfinternal.h"
+#include <stdexcept>
 
 int GroupDef::deserialize(const char *buf) {	
     const char *startbuf = buf;
@@ -69,7 +70,7 @@ const Chunk & GroupDef::get_child(std::string name) const {
 int GroupDef::get_child_index(std::string name) const {
     NameIndexMap::const_iterator inameindex = m_namemap.find(name);
     if (inameindex == m_namemap.end())
-	throw NotFound();
+	throw std::invalid_argument("Cannot find group with name " + name);
     else
 	return inameindex->second;
 }

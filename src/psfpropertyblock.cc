@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <stdexcept>
 
 #include "psf.h"
 #include "psfdata.h"
@@ -11,10 +12,10 @@ const PSFScalar &PropertyBlock::find(const std::string name) const
   found_prop_iter = m_propmap.find(name);
 
   if(found_prop_iter == m_propmap.end())
-    throw PropertyNotFound();
+      throw std::invalid_argument("Cannot find property with name " + name);
   else {
-    assert(found_prop_iter->second != NULL);
-    return *found_prop_iter->second;
+      assert(found_prop_iter->second != NULL);
+      return *found_prop_iter->second;
   }
 }
 

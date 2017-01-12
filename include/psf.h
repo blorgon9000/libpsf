@@ -30,14 +30,6 @@ public:
     }
 };
 
-class NotImplemented:   public std::exception {};
-class FileOpenError:    public std::exception {};
-class InvalidFileError: public std::exception {};
-class FileCloseError:   public std::exception {};
-class NotFound:         public std::exception {};
-class DataSetNotOpen:   public std::exception {};
-class PropertyNotFound: public std::exception {};
-
 #include "psfdata.h"
 
 typedef std::map<std::string, const PSFScalar *> PropertyMap;

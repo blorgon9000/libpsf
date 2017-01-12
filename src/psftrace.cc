@@ -29,17 +29,23 @@ NameList TraceSection::get_names() const {
 }
 
 const DataTypeRef & TraceSection::get_trace_by_name(const std::string name) const {
-    try {
-	return dynamic_cast<const DataTypeRef &>(get_child(name));
-    } catch (NotFound e) {
+    int idx = get_child_index(name);
+    if (idx >= 0) {
+        return dynamic_cast<const DataTypeRef &>(*at(idx));
+    } else {
 	// Search groups
 	for(const_iterator i=begin(); i != end(); i++) {
 	    const GroupDef *groupdef = dynamic_cast<const GroupDef *>(*i);
-	    if(groupdef)
-		return dynamic_cast<const DataTypeRef &>(groupdef->get_child(name));
+	    if(groupdef) {
+                idx = groupdef->get_child_index(name);
+                if (idx >= 0)
+                    return dynamic_cast<const DataTypeRef &>(*groupdef->at(idx));
+            }
+            
 	}
-	throw e;
     }
+    throw std::runtime_error("Cannot find trace with name " + name);
+    
 }
 
 const TraceIdx TraceSection::get_traceindex_by_name(const std::string name) const {
