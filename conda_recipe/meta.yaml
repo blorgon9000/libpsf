@@ -3,7 +3,7 @@ package:
   version: "1.0"
 
 source:
-  git_url: git@github.com:pkerichang/libpsf.git
+  git_url: https://github.com/blorgon9000/libpsf.git
 
 build:
   number: 0
@@ -15,5 +15,5 @@ requirements:
     - libgcc
 
 about:
-  home: https://github.com/pkerichang/libpsf
+  home: https://github.com/blorgon9000/libpsf
   license: LGPL
